@@ -101,18 +101,23 @@ sis3316_to_root(input_fname::AbstractString; evt_merge_window::AbstractFloat = 1
     const fnexpr = r"(.*)\.dat(\.[^.]+)?"
     const fnbase = match(fnexpr, basename(input_fname))[1]
     const output_fname = "$(fnbase).root"
-    output_tmpname, tmpio = mktemp_custom(pwd(), "$(output_fname).tmp-XXXXXX")
-    close(tmpio)
 
-    const input_io = open_decompressed(input_fname)
-    const output_tfile = TFile(output_tmpname, "recreate")
+    if !ispath(output_fname)
+        output_tmpname, tmpio = mktemp_custom(pwd(), "$(output_fname).tmp-XXXXXX")
+        close(tmpio)
 
-    sis3316_to_root(input_io, output_tfile, evt_merge_window = evt_merge_window)
+        const input_io = open_decompressed(input_fname)
+        const output_tfile = TFile(output_tmpname, "recreate")
 
-    close(input_io)
-    close(output_tfile)
+        sis3316_to_root(input_io, output_tfile, evt_merge_window = evt_merge_window)
 
-    mv(output_tmpname, output_fname, remove_destination = true)
+        close(input_io)
+        close(output_tfile)
+
+        mv(output_tmpname, output_fname, remove_destination = false)
+    else
+        info("Output file \"$(output_fname)\" already exists, skipping \"$(input_fname)\".")
+    end
 end
 
 
