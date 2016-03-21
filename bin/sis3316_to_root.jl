@@ -3,6 +3,7 @@
 # This file is a part of SIS3316.jl, licensed under the MIT License (MIT).
 
 
+using ArgParse
 using SIS3316
 using ROOTFramework
 
@@ -123,14 +124,24 @@ end
 
 
 main() = begin
-    local evt_merge_window = 100e-9
+    argsettings = ArgParseSettings()
 
-    const inputs = ARGS
+    @add_arg_table argsettings begin
+        "--merge-within", "-m"
+            help = "time window for merging events (no merging for negative values)"
+            arg_type = Float64
+            default = 100e-9
+        "inputs"
+            help = "input files"
+            nargs = '*'
+    end
 
-    for input_fname in inputs
+    const parsed_args = parse_args(argsettings)
+
+    for input_fname in parsed_args["inputs"]
         try
             info("Converting \"$(input_fname)\"")
-            @time sis3316_to_root(input_fname, evt_merge_window = evt_merge_window)
+            @time sis3316_to_root(input_fname, evt_merge_window = parsed_args["merge-within"])
         catch err
             print_with_color(:red, STDERR, "ERROR: $err\n")
         end
