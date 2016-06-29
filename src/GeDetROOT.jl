@@ -1,6 +1,6 @@
 # This file is a part of GeDetROOT, licensed under the MIT License (MIT).
 
-__precompile__()
+# __precompile__()
 
 module GeDetROOT
 
