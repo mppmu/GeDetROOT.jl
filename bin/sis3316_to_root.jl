@@ -8,6 +8,10 @@ using SIS3316
 using ROOTFramework
 
 
+function sis3316_to_root end
+export sis3316_to_root
+
+
 mktemp_custom(parent=tempdir(), format="tmpXXXXXX") = begin
     b = joinpath(parent, format)
     p = ccall(:mkstemp, Int32, (Ptr{UInt8},), b) # modifies b
@@ -148,7 +152,7 @@ end
 
 
 
-main() = begin
+sis3316_to_root() = begin
     argsettings = ArgParseSettings()
 
     @add_arg_table argsettings begin

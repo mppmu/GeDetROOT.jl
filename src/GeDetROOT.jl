@@ -1,13 +1,10 @@
-# This file is a part of GeDetROOT, licensed under the MIT License (MIT).
+# This file is a part of GeDetROOT.jl, licensed under the MIT License (MIT).
 
-# __precompile__()
+__precompile__(false)
 
 module GeDetROOT
 
-import EasyPkg
-EasyPkg.include_all_sources()
-
-function __init__()
-end
+include.([
+])
 
 end # module

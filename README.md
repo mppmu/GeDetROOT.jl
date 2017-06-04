@@ -1,1 +1,1 @@
-# GeDetROOT
+# GeDetROOT.jl
