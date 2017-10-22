@@ -4,8 +4,6 @@ __precompile__(false)
 
 module GeDetROOT
 
-include.([
-    "sis3316_to_root.jl",
-])
+include("sis3316_to_root.jl")
 
 end # module
